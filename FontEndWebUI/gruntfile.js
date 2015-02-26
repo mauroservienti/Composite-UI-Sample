@@ -19,8 +19,9 @@ module.exports = function (grunt) {
                     global_defs: {
                         "DEBUG": true
                     },
-                    dead_code: true,
-                    unused: true
+                    dead_code: false,
+                    unused: false,
+                    warnings: true
                 }
             },
             my_target: {
