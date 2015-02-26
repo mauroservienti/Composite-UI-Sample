@@ -1,6 +1,6 @@
 ﻿(function () {
 
-    //'use strict';
+    'use strict';
 
     angular.module('composite.ui.app.controllers', []);
 

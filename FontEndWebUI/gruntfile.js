@@ -14,6 +14,15 @@ module.exports = function (grunt) {
             }
         },
         uglify: {
+            options: {
+                compress: {
+                    global_defs: {
+                        "DEBUG": true
+                    },
+                    dead_code: true,
+                    unused: true
+                }
+            },
             my_target: {
                 files: { 'wwwroot/app.js': ['app/app.js', 'app/**/*.js'] }
             }
