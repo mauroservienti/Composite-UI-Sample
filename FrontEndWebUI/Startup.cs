@@ -3,7 +3,7 @@ using Microsoft.AspNet.Builder;
 using Microsoft.AspNet.Http;
 using Microsoft.Framework.DependencyInjection;
 
-namespace FontEndWebUI
+namespace FrontEndWebUI
 {
     public class Startup
     {

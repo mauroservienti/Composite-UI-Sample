@@ -3,7 +3,14 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.22609.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "FontEndWebUI", "FontEndWebUI\FontEndWebUI.kproj", "{1298759B-A583-4353-8680-EC5EF470D421}"
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "FrontEndWebUI", "FrontEndWebUI\FrontEndWebUI.kproj", "{1298759B-A583-4353-8680-EC5EF470D421}"
+	ProjectSection(ProjectDependencies) = postProject
+		{7744D43D-C4BA-4CB7-8F1E-145976A170F3} = {7744D43D-C4BA-4CB7-8F1E-145976A170F3}
+	EndProjectSection
+EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "RegistryApi", "RegistryApi\RegistryApi.kproj", "{7744D43D-C4BA-4CB7-8F1E-145976A170F3}"
+EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "OrdersApi", "OrdersApi\OrdersApi.kproj", "{DCAE69D5-2BF9-46DF-8AD0-0ED5D3E7F18E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +22,14 @@ Global
 		{1298759B-A583-4353-8680-EC5EF470D421}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1298759B-A583-4353-8680-EC5EF470D421}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1298759B-A583-4353-8680-EC5EF470D421}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7744D43D-C4BA-4CB7-8F1E-145976A170F3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7744D43D-C4BA-4CB7-8F1E-145976A170F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7744D43D-C4BA-4CB7-8F1E-145976A170F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7744D43D-C4BA-4CB7-8F1E-145976A170F3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DCAE69D5-2BF9-46DF-8AD0-0ED5D3E7F18E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DCAE69D5-2BF9-46DF-8AD0-0ED5D3E7F18E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DCAE69D5-2BF9-46DF-8AD0-0ED5D3E7F18E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DCAE69D5-2BF9-46DF-8AD0-0ED5D3E7F18E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
