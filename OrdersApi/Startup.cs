@@ -1,9 +1,12 @@
 ﻿using System;
+using System.Linq;
 using Microsoft.AspNet.Builder;
 using Microsoft.AspNet.Hosting;
 using Microsoft.AspNet.Http;
 using Microsoft.AspNet.Routing;
 using Microsoft.Framework.DependencyInjection;
+using Microsoft.AspNet.Mvc;
+using Newtonsoft.Json.Serialization;
 
 namespace OrdersApi
 {
@@ -17,7 +20,15 @@ namespace OrdersApi
         // Use this method to add services to the container
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc();
+            services.AddMvc().Configure<MvcOptions>( options =>
+			{
+				options.OutputFormatters
+					.Where( f => f.Instance is JsonOutputFormatter )
+					.Select( f => f.Instance as JsonOutputFormatter )
+					.First()
+					.SerializerSettings
+					.ContractResolver = new CamelCasePropertyNamesContractResolver();
+			} );
         }
 
         // Configure is called after ConfigureServices is called.

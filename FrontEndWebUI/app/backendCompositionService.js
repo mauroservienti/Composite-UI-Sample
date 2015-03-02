@@ -41,7 +41,9 @@
 
                         var deferred = $q.defer();
 
-                        var composedResult = {};
+                        var composedResult = {
+                            dataType: 'root'
+                        };
                         var promises = [];
 
                         angular.forEach(handlers, function (handler, index) {
