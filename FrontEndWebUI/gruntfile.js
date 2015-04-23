@@ -33,15 +33,26 @@ module.exports = function (grunt) {
                 }
             },
             app: {
-                src: [ 'app/**/*.html' ],
+                src: ['app/**/*.html'],
                 dest: 'wwwroot/app/templates.js'
+            }
+        },
+
+        less: {
+            development: {
+                options: {
+                    paths: ["assets/css"]
+                },
+                files: {
+                    "wwwroot/assets/site.css": "assets/css/site.less"
+                }
             }
         },
 
         watch: {
             scripts: {
-                files: ['app/**/*.js', 'app/**/*.html'],
-                tasks: ['uglify', 'html2js:app']
+                files: ['app/**/*.js', 'app/**/*.html', 'assets/css/*.less'],
+                tasks: ['uglify', 'html2js:app', 'less:development']
             }
         }
     });
@@ -55,5 +66,6 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-bower-task');
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-watch');
+    grunt.loadNpmTasks('grunt-contrib-less');
     grunt.loadNpmTasks('grunt-html2js');
 };

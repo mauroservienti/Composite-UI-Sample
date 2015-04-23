@@ -9,64 +9,24 @@
         d.setDefaultSettings({
             templatesFolder: "/app/composition/templates/"
         });
-    } ]);
-})();
-
-(function() {
-    angular.module("composite.ui.app.services").provider("backendCompositionService", function a() {
-        var a = {};
-        var b = {};
-        this.registerQueryHandlerFactory = function(b, c) {
-            if (!a.hasOwnProperty(b)) {
-                a[b] = [];
+        var e = {
+            "": {
+                templateUrl: "/app/presentation/dashboardView.html",
+                controller: "dashboardController as dashboard"
             }
-            a[b].push(c);
         };
-        this.$get = [ "$log", "$injector", "$q", function c(d, e, f) {
-            d.debug("backendCompositionServiceFactory");
-            var g = {};
-            g.executeQuery = function(c, d) {
-                var g = b[c];
-                if (!g) {
-                    var h = a[c];
-                    if (!h) {
-                        throw 'Cannot find any valid queryHandler or factory for "' + c + '"';
-                    }
-                    g = [];
-                    angular.forEach(h, function(a, b) {
-                        var c = e.invoke(a);
-                        g.push(c);
-                    });
-                    b[c] = g;
-                }
-                var i = f.defer();
-                var j = {
-                    dataType: "root"
-                };
-                var k = [];
-                angular.forEach(g, function(a, b) {
-                    var c = a.executeQuery(d, j);
-                    k.push(c);
-                });
-                return f.all(k).then(function(a) {
-                    return j;
-                });
-            };
-            return g;
-        } ];
-    });
-})();
-
-(function() {
-    angular.module("composite.ui.app.controllers").controller("CustomerDetailsController", [ "$log", "backendCompositionService", function(a, b) {
-        var c = this;
-        c.customerDetails = null;
-        b.executeQuery("customer-details", {
-            id: 123
-        }).then(function(b) {
-            a.debug("customer-details -> composedResult:", b);
-            c.customerDetails = b;
+        a.state("root", {
+            url: "",
+            views: e
+        }).state("dashboard", {
+            url: "/",
+            views: e
         });
+    } ]);
+    a.run([ "$log", "$rootScope", "$state", "$stateParams", function(a, b, c, d) {
+        b.$state = c;
+        b.$log = a;
+        b.$stateParams = d;
     } ]);
 })();
 
@@ -80,7 +40,7 @@
             defaultLoadingErrorTemplate: "<span>Cannot find any valid template for: {{templateModel}}</span>"
         };
         this.setDefaultSettings = function(b) {
-            a = angular.extend(a, b);
+            angular.extend(a, b);
         };
         this.$get = [ "$log", "$http", "$templateCache", function b(c, d, e) {
             return {
@@ -290,21 +250,128 @@
             }
         });
     }
-    angular.module("composite.ui.app.services").config([ "backendCompositionServiceProvider", function(b) {
-        var c = "customer-details";
-        b.registerQueryHandlerFactory(c, [ "$log", "$http", function(b, d) {
-            var e = {
-                executeQuery: function(e, f) {
-                    b.debug("Ready to handle ", c, " args: ", e);
-                    d.get("http://localhost:12631/api/customers/" + e.id).then(function(d) {
-                        var e = new a(d.data);
-                        f.customer = e;
-                        b.debug("Query ", c, "handled: ", f);
+    angular.module("composite.ui.app.services").config([ "$stateProvider", "backendCompositionServiceProvider", "navigationServiceProvider", function(b, c, d) {
+        var e = "customer-details";
+        b.state("customers", {
+            url: "/customers",
+            views: {
+                "": {
+                    templateUrl: "/app/modules/registry/presentation/customersView.html",
+                    controller: "customersController as customers"
+                }
+            }
+        }).state("customerById", {
+            url: "/customers/{id}",
+            views: {
+                "": {
+                    templateUrl: "/app/modules/registry/presentation/customerDetailsView.html",
+                    controller: "customerDetailsController as customerDetails"
+                }
+            }
+        });
+        c.registerQueryHandlerFactory(e, [ "$log", "$http", function(b, c) {
+            var d = {
+                executeQuery: function(d, f) {
+                    b.debug("Ready to handle ", e, " args: ", d);
+                    c.get("http://localhost:12631/api/customers/" + d.id).then(function(c) {
+                        var d = new a(c.data);
+                        f.customer = d;
+                        b.debug("Query ", e, "handled: ", f);
                     });
                 }
             };
-            return e;
+            return d;
         } ]);
+        d.registerNavigationItem({
+            id: "customers",
+            displayName: "Customers",
+            url: "/customers"
+        });
     } ]);
+})();
+
+(function() {
+    angular.module("composite.ui.app.controllers").controller("customerDetailsController", [ "$log", "backendCompositionService", function(a, b) {
+        var c = this;
+    } ]);
+})();
+
+(function() {
+    angular.module("composite.ui.app.controllers").controller("customersController", [ "$log", "backendCompositionService", function(a, b) {
+        var c = this;
+    } ]);
+})();
+
+(function() {
+    angular.module("composite.ui.app.controllers").controller("dashboardController", [ "$log", "navigationService", function(a, b) {
+        var c = this;
+        c.navigationItems = b.navigationItems;
+    } ]);
+})();
+
+(function() {
+    angular.module("composite.ui.app.controllers").controller("navigationController", [ "$log", "navigationService", function(a, b) {
+        var c = this;
+        c.navigationItems = b.navigationItems;
+    } ]);
+})();
+
+(function() {
+    angular.module("composite.ui.app.services").provider("backendCompositionService", function a() {
+        var a = {};
+        var b = {};
+        this.registerQueryHandlerFactory = function(b, c) {
+            if (!a.hasOwnProperty(b)) {
+                a[b] = [];
+            }
+            a[b].push(c);
+        };
+        this.$get = [ "$log", "$injector", "$q", function c(d, e, f) {
+            d.debug("backendCompositionServiceFactory");
+            var g = {};
+            g.executeQuery = function(c, d) {
+                var g = b[c];
+                if (!g) {
+                    var h = a[c];
+                    if (!h) {
+                        throw 'Cannot find any valid queryHandler or factory for "' + c + '"';
+                    }
+                    g = [];
+                    angular.forEach(h, function(a, b) {
+                        var c = e.invoke(a);
+                        g.push(c);
+                    });
+                    b[c] = g;
+                }
+                var i = f.defer();
+                var j = {
+                    dataType: "root"
+                };
+                var k = [];
+                angular.forEach(g, function(a, b) {
+                    var c = a.executeQuery(d, j);
+                    k.push(c);
+                });
+                return f.all(k).then(function(a) {
+                    return j;
+                });
+            };
+            return g;
+        } ];
+    });
+})();
+
+(function() {
+    angular.module("composite.ui.app.services").provider("navigationService", function a() {
+        var a = {};
+        a.navigationItems = [];
+        this.registerNavigationItem = function(b) {
+            a.navigationItems.push(b);
+        };
+        this.$get = [ "$log", function b(c) {
+            c.debug("navigationServiceFactory");
+            return a;
+        } ];
+    });
 })();
 //# sourceMappingURL=app.js.map

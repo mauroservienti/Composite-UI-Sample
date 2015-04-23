@@ -26,6 +26,32 @@
                     templatesFolder: '/app/composition/templates/'
                 });
 
+                var rootViews = {
+                    '': {
+                        templateUrl: '/app/presentation/dashboardView.html',
+                        controller: 'dashboardController as dashboard'
+                    }
+                };
+
+                $stateProvider
+                    .state('root', {
+                        url: '',
+                        views: rootViews
+                    })
+                    .state('dashboard', {
+                        url: '/',
+                        views: rootViews
+                    });
+
             }]);
+
+    app.run(['$log', '$rootScope', '$state', '$stateParams',
+        function ($log, $rootScope, $state, $stateParams) {
+
+            $rootScope.$state = $state;
+            $rootScope.$log = $log;
+            $rootScope.$stateParams = $stateParams;
+
+        }]);
 
 }())

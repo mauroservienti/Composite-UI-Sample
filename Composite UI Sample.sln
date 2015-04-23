@@ -12,6 +12,8 @@ Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "RegistryApi", "RegistryApi\
 EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "OrdersApi", "OrdersApi\OrdersApi.kproj", "{DCAE69D5-2BF9-46DF-8AD0-0ED5D3E7F18E}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "APIs", "APIs", "{7464DB8F-21CE-45DB-A503-B398EAE6CC71}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,5 +35,9 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{7744D43D-C4BA-4CB7-8F1E-145976A170F3} = {7464DB8F-21CE-45DB-A503-B398EAE6CC71}
+		{DCAE69D5-2BF9-46DF-8AD0-0ED5D3E7F18E} = {7464DB8F-21CE-45DB-A503-B398EAE6CC71}
 	EndGlobalSection
 EndGlobal

@@ -1,4 +1,4 @@
-angular.module('composite.ui.app.templates', ['/app/composition/templates/customer-details/customer.html', '/app/composition/templates/customer-details/orders.html', '/app/composition/templates/customer-details/root.html']);
+angular.module('composite.ui.app.templates', ['/app/composition/templates/customer-details/customer.html', '/app/composition/templates/customer-details/orders.html', '/app/composition/templates/customer-details/root.html', '/app/modules/registry/presentation/customerDetailsView.html', '/app/modules/registry/presentation/customersView.html', '/app/presentation/dashboardView.html']);
 
 angular.module("/app/composition/templates/customer-details/customer.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("/app/composition/templates/customer-details/customer.html",
@@ -33,5 +33,26 @@ angular.module("/app/composition/templates/customer-details/root.html", []).run(
     "\n" +
     "    </div>\n" +
     "\n" +
+    "</section>");
+}]);
+
+angular.module("/app/modules/registry/presentation/customerDetailsView.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("/app/modules/registry/presentation/customerDetailsView.html",
+    "<section>\n" +
+    "    Customer by id\n" +
+    "</section>");
+}]);
+
+angular.module("/app/modules/registry/presentation/customersView.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("/app/modules/registry/presentation/customersView.html",
+    "<section>\n" +
+    "   Customers\n" +
+    "</section>");
+}]);
+
+angular.module("/app/presentation/dashboardView.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("/app/presentation/dashboardView.html",
+    "<section>\n" +
+    "    This is the dashboard.\n" +
     "</section>");
 }]);
