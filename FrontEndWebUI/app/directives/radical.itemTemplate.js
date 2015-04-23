@@ -17,7 +17,7 @@
         };
 
         this.setDefaultSettings = function (userDefaultSetting) {
-            _defaultSettings = angular.extend(_defaultSettings, userDefaultSetting);
+            angular.extend(_defaultSettings, userDefaultSetting);
         };
 
         this.$get = ['$log', '$http', '$templateCache', function radicalItemTemplateConfig($log, $http, $templateCache) {
