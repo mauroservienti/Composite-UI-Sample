@@ -251,7 +251,6 @@
         });
     }
     angular.module("composite.ui.app.services").config([ "$stateProvider", "backendCompositionServiceProvider", "navigationServiceProvider", function(b, c, d) {
-        var e = "customer-details";
         b.state("customers", {
             url: "/customers",
             views: {
@@ -269,6 +268,12 @@
                 }
             }
         });
+        d.registerNavigationItem({
+            id: "customers",
+            displayName: "Customers",
+            url: "/customers"
+        });
+        var e = "customer-details";
         c.registerQueryHandlerFactory(e, [ "$log", "$http", function(b, c) {
             var d = {
                 executeQuery: function(d, f) {
@@ -282,11 +287,20 @@
             };
             return d;
         } ]);
-        d.registerNavigationItem({
-            id: "customers",
-            displayName: "Customers",
-            url: "/customers"
-        });
+        var f = "customers-list";
+        c.registerQueryHandlerFactory(f, [ "$log", "$http", function(b, c) {
+            var d = {
+                executeQuery: function(d, e) {
+                    b.debug("Ready to handle ", f, " args: ", d);
+                    c.get("http://localhost:12631/api/customers").then(function(c) {
+                        var d = new a(c.data);
+                        e.customer = d;
+                        b.debug("Query ", f, "handled: ", e);
+                    });
+                }
+            };
+            return d;
+        } ]);
     } ]);
 })();
 

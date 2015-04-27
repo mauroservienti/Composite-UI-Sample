@@ -15,8 +15,6 @@
         .config(['$stateProvider', 'backendCompositionServiceProvider', 'navigationServiceProvider',
             function ($stateProvider, backendCompositionServiceProvider, navigationServiceProvider) {
 
-                var queryId = 'customer-details';
-
                 $stateProvider
                     .state('customers', {
                         url: '/customers',
@@ -36,20 +34,27 @@
                         }
                     });
 
-                backendCompositionServiceProvider.registerQueryHandlerFactory(queryId,
+                navigationServiceProvider.registerNavigationItem({
+                    id: 'customers',
+                    displayName: 'Customers',
+                    url: '/customers'
+                });
+
+                var customerDetailsQueryId = 'customer-details';
+                backendCompositionServiceProvider.registerQueryHandlerFactory(customerDetailsQueryId,
                     ['$log', '$http', function ($log, $http) {
 
                         var handler = {
                             executeQuery: function (args, composedResults) {
 
-                                $log.debug('Ready to handle ', queryId, ' args: ', args);
+                                $log.debug('Ready to handle ', customerDetailsQueryId, ' args: ', args);
 
                                 $http.get('http://localhost:12631/api/customers/' + args.id)
                                     .then(function (response) {
                                         var customer = new CustomerViewModel(response.data);
                                         composedResults.customer = customer;
 
-                                        $log.debug('Query ', queryId, 'handled: ', composedResults);
+                                        $log.debug('Query ', customerDetailsQueryId, 'handled: ', composedResults);
                                     });
 
                             }
@@ -59,11 +64,29 @@
 
                     }]);
 
-                navigationServiceProvider.registerNavigationItem({
-                    id: 'customers',
-                    displayName: 'Customers',
-                    url: '/customers'
-                });
+                var customersListQueryId = 'customers-list';
+                backendCompositionServiceProvider.registerQueryHandlerFactory(customersListQueryId,
+                    ['$log', '$http', function ($log, $http) {
+
+                        var handler = {
+                            executeQuery: function (args, composedResults) {
+
+                                $log.debug('Ready to handle ', customersListQueryId, ' args: ', args);
+
+                                $http.get('http://localhost:12631/api/customers')
+                                    .then(function (response) {
+                                        var customer = new CustomerViewModel(response.data);
+                                        composedResults.customer = customer;
+
+                                        $log.debug('Query ', customersListQueryId, 'handled: ', composedResults);
+                                    });
+
+                            }
+                        }
+
+                        return handler;
+
+                    }]);
 
             }]);
 }())

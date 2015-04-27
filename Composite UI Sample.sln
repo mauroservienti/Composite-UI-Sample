@@ -1,16 +1,16 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.22609.0
+VisualStudioVersion = 14.0.22823.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "FrontEndWebUI", "FrontEndWebUI\FrontEndWebUI.kproj", "{1298759B-A583-4353-8680-EC5EF470D421}"
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "FrontEndWebUI", "FrontEndWebUI\FrontEndWebUI.xproj", "{1298759B-A583-4353-8680-EC5EF470D421}"
 	ProjectSection(ProjectDependencies) = postProject
 		{7744D43D-C4BA-4CB7-8F1E-145976A170F3} = {7744D43D-C4BA-4CB7-8F1E-145976A170F3}
 	EndProjectSection
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "RegistryApi", "RegistryApi\RegistryApi.kproj", "{7744D43D-C4BA-4CB7-8F1E-145976A170F3}"
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "RegistryApi", "RegistryApi\RegistryApi.xproj", "{7744D43D-C4BA-4CB7-8F1E-145976A170F3}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "OrdersApi", "OrdersApi\OrdersApi.kproj", "{DCAE69D5-2BF9-46DF-8AD0-0ED5D3E7F18E}"
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "OrdersApi", "OrdersApi\OrdersApi.xproj", "{DCAE69D5-2BF9-46DF-8AD0-0ED5D3E7F18E}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "APIs", "APIs", "{7464DB8F-21CE-45DB-A503-B398EAE6CC71}"
 EndProject
