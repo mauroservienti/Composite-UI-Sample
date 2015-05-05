@@ -199,6 +199,10 @@
     function a(a) {
         var b = a;
         this.dataType = "order";
+        var c = {
+            0: "Shipped",
+            1: "Collecting Items"
+        };
         Object.defineProperty(this, "id", {
             get: function() {
                 return b.id;
@@ -206,7 +210,7 @@
         });
         Object.defineProperty(this, "status", {
             get: function() {
-                return b.status;
+                return c[b.status];
             }
         });
         Object.defineProperty(this, "price", {
@@ -262,15 +266,17 @@
             views: {
                 "": {
                     templateUrl: "/app/modules/registry/presentation/customersView.html",
-                    controller: "customersController as customers"
+                    controller: "customersController",
+                    controllerAs: "customers"
                 }
             }
         }).state("customerById", {
             url: "/customers/{id}",
             views: {
                 "": {
-                    templateUrl: "/app/modules/registry/presentation/customerDetailsView.html",
-                    controller: "customerDetailsController as customerDetails"
+                    templateUrl: "/app/modules/registry/presentation/customerView.html",
+                    controller: "customerController",
+                    controllerAs: "customer"
                 }
             }
         });
@@ -318,14 +324,15 @@
 })();
 
 (function() {
-    angular.module("composite.ui.app.controllers").controller("customerDetailsController", [ "$log", "backendCompositionService", "$stateParams", function(a, b, c) {
+    angular.module("composite.ui.app.controllers").controller("customerController", [ "$log", "backendCompositionService", "$stateParams", function(a, b, c) {
         var d = this;
-        d.customerDetails = null;
-        b.executeQuery("customer-details", {
+        d.isBusy = null;
+        d.details = null;
+        d.isBusy = b.executeQuery("customer-details", {
             id: c.id
         }).then(function(b) {
             a.debug("customer-details -> composedResult:", b);
-            d.customerDetails = b;
+            d.details = b;
         });
     } ]);
 })();
@@ -333,8 +340,9 @@
 (function() {
     angular.module("composite.ui.app.controllers").controller("customersController", [ "$log", "backendCompositionService", function(a, b) {
         var c = this;
+        c.isBusy = null;
         c.list = null;
-        b.executeQuery("customers-list", {
+        c.isBusy = b.executeQuery("customers-list", {
             pageIndex: 0,
             pageSize: 10
         }).then(function(b) {

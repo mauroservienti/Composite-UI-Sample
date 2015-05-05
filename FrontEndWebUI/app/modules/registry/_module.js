@@ -2,7 +2,7 @@
 
     function CustomerViewModel(customerReadModel) {
         var readModel = customerReadModel;
-        this.dataType = 'customer'
+        this.dataType = 'customer';
 
         Object.defineProperty(this, 'displayName', {
             get: function () {
@@ -27,7 +27,8 @@
                         views: {
                             '': {
                                 templateUrl: '/app/modules/registry/presentation/customersView.html',
-                                controller: 'customersController as customers'
+                                controller: 'customersController',
+                                controllerAs: 'customers'
                             }
                         }
                     })
@@ -35,8 +36,9 @@
                         url: '/customers/{id}',
                         views: {
                             '': {
-                                templateUrl: '/app/modules/registry/presentation/customerDetailsView.html',
-                                controller: 'customerDetailsController as customerDetails'
+                                templateUrl: '/app/modules/registry/presentation/customerView.html',
+                                controller: 'customerController',
+                                controllerAs: 'customer'
                             }
                         }
                     });

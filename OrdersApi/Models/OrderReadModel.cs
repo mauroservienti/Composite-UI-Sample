@@ -12,6 +12,6 @@ namespace OrdersApi.Models
 
 	public enum OrderStatus {
 		Shipped,
-		CollectiongItems
+		CollectingItems
 	}
 }

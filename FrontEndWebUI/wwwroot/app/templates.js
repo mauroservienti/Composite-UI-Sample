@@ -1,4 +1,4 @@
-angular.module('composite.ui.app.templates', ['/app/composition/templates/customer-details/customer.html', '/app/composition/templates/customer-details/orders.html', '/app/composition/templates/customer-details/root.html', '/app/modules/registry/presentation/customerDetailsView.html', '/app/modules/registry/presentation/customersView.html', '/app/presentation/dashboardView.html']);
+angular.module('composite.ui.app.templates', ['/app/composition/templates/customer-details/customer.html', '/app/composition/templates/customer-details/orders.html', '/app/composition/templates/customer-details/root.html', '/app/composition/templates/customers-list/customer.html', '/app/modules/registry/presentation/customerView.html', '/app/modules/registry/presentation/customersView.html', '/app/presentation/dashboardView.html']);
 
 angular.module("/app/composition/templates/customer-details/customer.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("/app/composition/templates/customer-details/customer.html",
@@ -36,21 +36,30 @@ angular.module("/app/composition/templates/customer-details/root.html", []).run(
     "</section>");
 }]);
 
-angular.module("/app/modules/registry/presentation/customerDetailsView.html", []).run(["$templateCache", function($templateCache) {
-  $templateCache.put("/app/modules/registry/presentation/customerDetailsView.html",
+angular.module("/app/composition/templates/customers-list/customer.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("/app/composition/templates/customers-list/customer.html",
     "<section>\n" +
-    "    Customer by id\n" +
+    "    <a data-ng-href=\"#/customers/{{templateModel.id}}\">{{templateModel.displayName}}</a>\n" +
+    "</section>");
+}]);
+
+angular.module("/app/modules/registry/presentation/customerView.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("/app/modules/registry/presentation/customerView.html",
+    "<section data-cg-busy=\"customer.isBusy\">\n" +
+    "    Customer by id<br />\n" +
+    "    <radical-item-template item-template-settings=\"{ templatesFolder: '^customer-details/' }\"\n" +
+    "                           template-model=\"customer.details\"></radical-item-template>\n" +
     "</section>");
 }]);
 
 angular.module("/app/modules/registry/presentation/customersView.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("/app/modules/registry/presentation/customersView.html",
-    "<section>\n" +
+    "<section data-cg-busy=\"customers.isBusy\">\n" +
     "    Customers\n" +
-    "\n" +
     "    <ul>\n" +
     "        <li data-ng-repeat=\"customer in customers.list track by customer.id\">\n" +
-    "            <a data-ng-href=\"{{customer.id}}\">{{customer.displayName}}</a>\n" +
+    "            <radical-item-template item-template-settings=\"{ templatesFolder: '^customers-list/' }\"\n" +
+    "                                   template-model=\"customer\"></radical-item-template>\n" +
     "        </li>\n" +
     "    </ul>\n" +
     "\n" +

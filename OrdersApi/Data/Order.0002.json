@@ -1,0 +1,6 @@
+﻿{
+    id: 2,
+    customerId: 1,
+    price: 120.00,
+    status: 1
+}

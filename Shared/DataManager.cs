@@ -12,11 +12,21 @@ namespace Shared
 	{
 		readonly String applicationBasePath;
 		readonly String dataDirectory;
+		readonly Boolean makeItSlow;
 
-		public DataManager(String applicationBasePath)
+		public DataManager(String applicationBasePath, Boolean makeItSlow = true)
 		{
 			this.applicationBasePath = applicationBasePath;
+			this.makeItSlow = makeItSlow;
 			this.dataDirectory = Path.Combine(this.applicationBasePath, "Data");
+		}
+
+		void SlowDown()
+		{
+			if (this.makeItSlow)
+			{
+				System.Threading.Thread.Sleep(500);
+			}
 		}
 
 		String ComposeFullFileName(String type, int id)
@@ -27,7 +37,7 @@ namespace Shared
 			return path;
 		}
 
-		dynamic GetDocument( String fullFileName)
+		dynamic GetDocument(String fullFileName)
 		{
 			using (var fs = File.OpenText(fullFileName))
 			{
@@ -40,15 +50,17 @@ namespace Shared
 
 		public dynamic GetById(String type, int id)
 		{
+			this.SlowDown();
+
 			return this.GetDocument(this.ComposeFullFileName(type, id));
 		}
 
-		public IEnumerable<dynamic> Select(String type, int pageIndex, int pageSize)
+		public IEnumerable<dynamic> Select(String type)
 		{
+			this.SlowDown();
+
 			return Directory.EnumerateFiles(this.dataDirectory, type + ".*.json")
-				.Skip(pageIndex * pageSize)
-				.Take(pageSize)
-				.Select(file => this.GetDocument(file) );
+				.Select(file => this.GetDocument(file));
 		}
 	}
 }

@@ -1,17 +1,18 @@
 ﻿(function () {
     angular.module('composite.ui.app.controllers')
-        .controller('customerDetailsController',
+        .controller('customerController',
         ['$log', 'backendCompositionService','$stateParams',
             function ($log, backendCompositionService, $stateParams) {
 
                 var vm = this;
-                vm.customerDetails = null;
+                vm.isBusy = null;
+                vm.details = null;
 
-                backendCompositionService
+                vm.isBusy = backendCompositionService
                     .executeQuery('customer-details', { id: $stateParams.id })
                     .then(function (composedResult) {
                         $log.debug('customer-details -> composedResult:', composedResult);
-                        vm.customerDetails = composedResult;
+                        vm.details = composedResult;
                     });
 
             }]);

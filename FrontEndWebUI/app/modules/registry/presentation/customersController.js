@@ -5,9 +5,10 @@
             function ($log, backendCompositionService) {
 
                 var vm = this;
+                vm.isBusy = null;
                 vm.list = null;
 
-                backendCompositionService
+                vm.isBusy = backendCompositionService
                     .executeQuery('customers-list', { pageIndex: 0, pageSize: 10 })
                     .then(function (composedResult) {
                         $log.debug('customers-list -> composedResult:', composedResult);

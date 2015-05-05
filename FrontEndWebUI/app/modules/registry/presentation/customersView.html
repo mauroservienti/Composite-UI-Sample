@@ -1,9 +1,9 @@
-﻿<section>
+﻿<section data-cg-busy="customers.isBusy">
     Customers
-
     <ul>
         <li data-ng-repeat="customer in customers.list track by customer.id">
-            <a data-ng-href="{{customer.id}}">{{customer.displayName}}</a>
+            <radical-item-template item-template-settings="{ templatesFolder: '^customers-list/' }"
+                                   template-model="customer"></radical-item-template>
         </li>
     </ul>
 

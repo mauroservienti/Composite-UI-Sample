@@ -3,6 +3,10 @@
     function OrderViewModel(orderReadModel) {
         var readModel = orderReadModel;
         this.dataType = 'order'
+        var statusConveter = {
+            0: 'Shipped',
+            1: 'Collecting Items'
+        };
 
         Object.defineProperty(this, 'id', {
             get: function () {
@@ -12,7 +16,7 @@
 
         Object.defineProperty(this, 'status', {
             get: function () {
-                return readModel.status;
+                return statusConveter[ readModel.status ];
             }
         });
 

@@ -7,6 +7,7 @@ using Microsoft.AspNet.Routing;
 using Microsoft.Framework.DependencyInjection;
 using Microsoft.AspNet.Mvc;
 using Newtonsoft.Json.Serialization;
+using Microsoft.Framework.Runtime;
 
 namespace OrdersApi
 {
@@ -29,7 +30,13 @@ namespace OrdersApi
 					.SerializerSettings
 					.ContractResolver = new CamelCasePropertyNamesContractResolver();
 			} );
-        }
+
+			services.AddSingleton(typeof(Shared.DataManager), c =>
+			{
+				var env = (IApplicationEnvironment)c.GetService(typeof(IApplicationEnvironment));
+				return new Shared.DataManager(env.ApplicationBasePath);
+			});
+		}
 
         // Configure is called after ConfigureServices is called.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
