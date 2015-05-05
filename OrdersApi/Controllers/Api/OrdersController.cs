@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNet.Mvc;
-using OrdersApi.Models;
 
 namespace OrdersApi.Controllers.Api
 {
