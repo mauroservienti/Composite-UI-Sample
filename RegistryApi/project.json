@@ -6,7 +6,8 @@
         "Microsoft.AspNet.Mvc": "6.0.0-beta4",
         "Microsoft.AspNet.Server.IIS": "1.0.0-beta4",
         "Microsoft.AspNet.Server.WebListener": "1.0.0-beta4",
-        "Microsoft.AspNet.StaticFiles": "1.0.0-beta4"
+        "Microsoft.AspNet.StaticFiles": "1.0.0-beta4",
+        "Shared": "1.0.0-*"
     },
 
     "commands": {
@@ -14,7 +15,8 @@
     },
 
     "frameworks": {
-        "dnx451": { },
+        "dnx451": {
+        },
         "dnxcore50": { }
     },
 
@@ -23,7 +25,7 @@
         "node_modules",
         "bower_components"
     ],
-    "bundleExclude": [
+    "publishExclude": [
         "node_modules",
         "bower_components",
         "**.kproj",

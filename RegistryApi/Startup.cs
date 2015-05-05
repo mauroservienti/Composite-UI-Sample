@@ -7,49 +7,56 @@ using Microsoft.AspNet.Routing;
 using Microsoft.Framework.DependencyInjection;
 using Microsoft.AspNet.Mvc;
 using Newtonsoft.Json.Serialization;
+using Microsoft.Framework.Runtime;
 
 namespace RegistryApi
 {
-    public class Startup
-    {
-        public Startup(IHostingEnvironment env)
-        {
-        }
-
-        // This method gets called by a runtime.
-        // Use this method to add services to the container
-        public void ConfigureServices(IServiceCollection services)
-        {
-			services.AddMvc().Configure<MvcOptions>( options =>
-			{
-				options.OutputFormatters
-					.Where( f => f.Instance is JsonOutputFormatter )
-					.Select( f => f.Instance as JsonOutputFormatter )
-					.First()
-					.SerializerSettings
-					.ContractResolver = new CamelCasePropertyNamesContractResolver();
-			} );
+	public class Startup
+	{
+		public Startup(IHostingEnvironment env)
+		{
 		}
 
-        // Configure is called after ConfigureServices is called.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
-        {
-			app.Use( async ( context, next ) =>
+		// This method gets called by a runtime.
+		// Use this method to add services to the container
+		public void ConfigureServices(IServiceCollection services)
+		{
+			services.AddMvc().Configure<MvcOptions>(options =>
+		   {
+			   options.OutputFormatters
+				   .Where(f => f.Instance is JsonOutputFormatter)
+				   .Select(f => f.Instance as JsonOutputFormatter)
+				   .First()
+				   .SerializerSettings
+				   .ContractResolver = new CamelCasePropertyNamesContractResolver();
+		   });
+
+			services.AddSingleton(typeof(Shared.DataManager), c =>
 			{
-				context.Response.Headers.Append( "Access-Control-Allow-Origin", "*" );
-				context.Response.Headers.Add( "Access-Control-Allow-Headers", new[ ] { "Content-Type, x-xsrf-token" } );
-				await next();
-			} );
+				var env = (IApplicationEnvironment)c.GetService(typeof(IApplicationEnvironment));
+				return new Shared.DataManager(env.ApplicationBasePath);
+			});
+		}
+
+		// Configure is called after ConfigureServices is called.
+		public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+		{
+			app.Use(async (context, next) =>
+		   {
+			   context.Response.Headers.Append("Access-Control-Allow-Origin", "*");
+			   context.Response.Headers.Add("Access-Control-Allow-Headers", new[] { "Content-Type, x-xsrf-token" });
+			   await next();
+		   });
 
 			app.UseStaticFiles();
-            // Add MVC to the request pipeline.
-            app.UseMvc(routes =>
-            {
-                routes.MapRoute(
-                    name: "default",
-                    template: "{controller}/{action}/{id?}",
-                    defaults: new { controller = "Home", action = "Index" });
-			} );
-        }
-    }
+			// Add MVC to the request pipeline.
+			app.UseMvc(routes =>
+			{
+				routes.MapRoute(
+					name: "default",
+					template: "{controller}/{action}/{id?}",
+					defaults: new { controller = "Home", action = "Index" });
+			});
+		}
+	}
 }

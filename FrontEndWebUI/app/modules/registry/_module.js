@@ -24,7 +24,8 @@
                                 controller: 'customersController as customers'
                             }
                         }
-                    }).state('customerById', {
+                    })
+                    .state('customerById', {
                         url: '/customers/{id}',
                         views: {
                             '': {

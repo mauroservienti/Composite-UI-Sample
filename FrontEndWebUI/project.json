@@ -20,7 +20,7 @@
         "node_modules",
         "bower_components"
     ],
-    "bundleExclude": [
+    "publishExclude": [
         "node_modules",
         "bower_components",
         "**.kproj",
