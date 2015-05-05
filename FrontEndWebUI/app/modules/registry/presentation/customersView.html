@@ -1,3 +1,10 @@
 ﻿<section>
-   Customers
+    Customers
+
+    <ul>
+        <li data-ng-repeat="customer in customers.list track by customer.id">
+            <a data-ng-href="{{customer.id}}">{{customer.displayName}}</a>
+        </li>
+    </ul>
+
 </section>

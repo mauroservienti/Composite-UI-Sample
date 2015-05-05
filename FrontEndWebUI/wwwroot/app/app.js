@@ -221,7 +221,7 @@
             var e = {
                 executeQuery: function(e, f) {
                     b.debug("Ready to handle ", c, " args: ", e);
-                    d.get("http://localhost:55751/api/orders/bycustomer/" + e.id).then(function(d) {
+                    return d.get("http://localhost:55751/api/orders/bycustomer/" + e.id).then(function(d) {
                         var e = [];
                         angular.forEach(d.data, function(b, c) {
                             var d = new a(b);
@@ -232,6 +232,7 @@
                             items: e
                         };
                         b.debug("Query ", c, "handled: ", f);
+                        return f;
                     });
                 }
             };
@@ -247,6 +248,11 @@
         Object.defineProperty(this, "displayName", {
             get: function() {
                 return b.displayName;
+            }
+        });
+        Object.defineProperty(this, "id", {
+            get: function() {
+                return b.id;
             }
         });
     }
@@ -278,10 +284,11 @@
             var d = {
                 executeQuery: function(d, f) {
                     b.debug("Ready to handle ", e, " args: ", d);
-                    c.get("http://localhost:12631/api/customers/" + d.id).then(function(c) {
+                    return c.get("http://localhost:12631/api/customers/" + d.id).then(function(c) {
                         var d = new a(c.data);
                         f.customer = d;
                         b.debug("Query ", e, "handled: ", f);
+                        return f;
                     });
                 }
             };
@@ -292,10 +299,16 @@
             var d = {
                 executeQuery: function(d, e) {
                     b.debug("Ready to handle ", f, " args: ", d);
-                    c.get("http://localhost:12631/api/customers").then(function(c) {
-                        var d = new a(c.data);
-                        e.customer = d;
+                    var g = "http://localhost:12631/api/customers?p=" + d.pageIndex + "&s=" + d.pageSize;
+                    return c.get(g).then(function(c) {
+                        b.debug("HTTP response", c.data);
+                        var d = [];
+                        angular.forEach(c.data, function(b, c) {
+                            d.push(new a(b));
+                        });
+                        e.customers = d;
                         b.debug("Query ", f, "handled: ", e);
+                        return e;
                     });
                 }
             };
@@ -305,14 +318,29 @@
 })();
 
 (function() {
-    angular.module("composite.ui.app.controllers").controller("customerDetailsController", [ "$log", "backendCompositionService", function(a, b) {
-        var c = this;
+    angular.module("composite.ui.app.controllers").controller("customerDetailsController", [ "$log", "backendCompositionService", "$stateParams", function(a, b, c) {
+        var d = this;
+        d.customerDetails = null;
+        b.executeQuery("customer-details", {
+            id: c.id
+        }).then(function(b) {
+            a.debug("customer-details -> composedResult:", b);
+            d.customerDetails = b;
+        });
     } ]);
 })();
 
 (function() {
     angular.module("composite.ui.app.controllers").controller("customersController", [ "$log", "backendCompositionService", function(a, b) {
         var c = this;
+        c.list = null;
+        b.executeQuery("customers-list", {
+            pageIndex: 0,
+            pageSize: 10
+        }).then(function(b) {
+            a.debug("customers-list -> composedResult:", b);
+            c.list = b.customers;
+        });
     } ]);
 })();
 
@@ -343,31 +371,35 @@
         this.$get = [ "$log", "$injector", "$q", function c(d, e, f) {
             d.debug("backendCompositionServiceFactory");
             var g = {};
-            g.executeQuery = function(c, d) {
-                var g = b[c];
-                if (!g) {
-                    var h = a[c];
-                    if (!h) {
+            g.executeQuery = function(c, g) {
+                var h = b[c];
+                if (!h) {
+                    var i = a[c];
+                    if (!i) {
                         throw 'Cannot find any valid queryHandler or factory for "' + c + '"';
                     }
-                    g = [];
-                    angular.forEach(h, function(a, b) {
+                    h = [];
+                    angular.forEach(i, function(a, b) {
                         var c = e.invoke(a);
-                        g.push(c);
+                        h.push(c);
                     });
-                    b[c] = g;
+                    b[c] = h;
                 }
-                var i = f.defer();
-                var j = {
+                var j = f.defer();
+                var k = {
                     dataType: "root"
                 };
-                var k = [];
-                angular.forEach(g, function(a, b) {
-                    var c = a.executeQuery(d, j);
-                    k.push(c);
+                var l = [];
+                angular.forEach(h, function(a, b) {
+                    var c = a.executeQuery(g, k);
+                    if (!c) {
+                        throw "executeQuery must return a promise.";
+                    }
+                    l.push(c);
                 });
-                return f.all(k).then(function(a) {
-                    return j;
+                return f.all(l).then(function(a) {
+                    d.debug(c, "-> completed -> ComposedResult: ", k);
+                    return k;
                 });
             };
             return g;

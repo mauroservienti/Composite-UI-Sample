@@ -46,7 +46,14 @@ angular.module("/app/modules/registry/presentation/customerDetailsView.html", []
 angular.module("/app/modules/registry/presentation/customersView.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("/app/modules/registry/presentation/customersView.html",
     "<section>\n" +
-    "   Customers\n" +
+    "    Customers\n" +
+    "\n" +
+    "    <ul>\n" +
+    "        <li data-ng-repeat=\"customer in customers.list track by customer.id\">\n" +
+    "            <a data-ng-href=\"{{customer.id}}\">{{customer.displayName}}</a>\n" +
+    "        </li>\n" +
+    "    </ul>\n" +
+    "\n" +
     "</section>");
 }]);
 

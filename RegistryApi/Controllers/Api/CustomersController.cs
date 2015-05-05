@@ -29,6 +29,8 @@ namespace RegistryApi.Controllers.Controllers
 		[HttpGet("")]
 		public IEnumerable<dynamic> Get(int p = 0, int s = 10)
 		{
+			System.Threading.Thread.Sleep(1000);
+
 			return this.dataManager.Select("Customer", p, s);
 		}
 	}

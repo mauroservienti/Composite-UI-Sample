@@ -49,11 +49,15 @@
                         angular.forEach(handlers, function (handler, index) {
 
                             var promise = handler.executeQuery(args, composedResult);
+                            if (!promise) {
+                                throw 'executeQuery must return a promise.';
+                            }
                             promises.push(promise);
                         });
 
                         return $q.all(promises)
                             .then(function (_) {
+                                $log.debug(queryId, '-> completed -> ComposedResult: ', composedResult);
                                 return composedResult;
                             });
                     };

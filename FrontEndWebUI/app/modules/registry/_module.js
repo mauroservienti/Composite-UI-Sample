@@ -9,6 +9,12 @@
                 return readModel.displayName;
             }
         });
+
+        Object.defineProperty(this, 'id', {
+            get: function () {
+                return readModel.id;
+            }
+        });
     };
 
     angular.module('composite.ui.app.services')
@@ -50,12 +56,15 @@
 
                                 $log.debug('Ready to handle ', customerDetailsQueryId, ' args: ', args);
 
-                                $http.get('http://localhost:12631/api/customers/' + args.id)
+                                return $http.get('http://localhost:12631/api/customers/' + args.id)
                                     .then(function (response) {
+
                                         var customer = new CustomerViewModel(response.data);
                                         composedResults.customer = customer;
 
                                         $log.debug('Query ', customerDetailsQueryId, 'handled: ', composedResults);
+
+                                        return composedResults;
                                     });
 
                             }
@@ -73,13 +82,21 @@
                             executeQuery: function (args, composedResults) {
 
                                 $log.debug('Ready to handle ', customersListQueryId, ' args: ', args);
-
-                                $http.get('http://localhost:12631/api/customers')
+                                var uri = 'http://localhost:12631/api/customers?p=' + args.pageIndex + '&s=' + args.pageSize;
+                                return $http.get(uri)
                                     .then(function (response) {
-                                        var customer = new CustomerViewModel(response.data);
-                                        composedResults.customer = customer;
+
+                                        $log.debug('HTTP response', response.data);
+
+                                        var vms = [];
+                                        angular.forEach(response.data, function (item, index) {
+                                            vms.push(new CustomerViewModel(item));
+                                        });
+                                        composedResults.customers = vms;
 
                                         $log.debug('Query ', customersListQueryId, 'handled: ', composedResults);
+
+                                        return composedResults;
                                     });
 
                             }

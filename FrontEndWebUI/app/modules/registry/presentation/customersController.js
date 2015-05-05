@@ -5,14 +5,14 @@
             function ($log, backendCompositionService) {
 
                 var vm = this;
-                //vm.customerDetails = null;
+                vm.list = null;
 
-                //backendCompositionService
-                //    .executeQuery('customer-details', { id: 123 })
-                //    .then(function (composedResult) {
-                //        $log.debug('customer-details -> composedResult:', composedResult);
-                //        vm.customerDetails = composedResult;
-                //    });
+                backendCompositionService
+                    .executeQuery('customers-list', { pageIndex: 0, pageSize: 10 })
+                    .then(function (composedResult) {
+                        $log.debug('customers-list -> composedResult:', composedResult);
+                        vm.list = composedResult.customers;
+                    });
 
             }]);
 }())
