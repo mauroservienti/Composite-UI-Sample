@@ -4,6 +4,7 @@
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">14.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
   </PropertyGroup>
+  <Import Project="$(VSToolsPath)\DNX\Microsoft.DNX.Props" Condition="'$(VSToolsPath)' != ''" />
   <PropertyGroup Label="Globals">
     <ProjectGuid>1298759b-a583-4353-8680-ec5ef470d421</ProjectGuid>
     <RootNamespace>FrontEndWebUI</RootNamespace>
@@ -17,6 +18,5 @@
     <SchemaVersion>2.0</SchemaVersion>
     <DevelopmentServerPort>19976</DevelopmentServerPort>
   </PropertyGroup>
-  <Import Project="$(VSToolsPath)\DNX\Microsoft.DNX.Props" />
-  <Import Project="$(VSToolsPath)\DNX\Microsoft.DNX.targets" />
+  <Import Project="$(VSToolsPath)\DNX\Microsoft.DNX.targets" Condition="'$(VSToolsPath)' != ''" />
 </Project>
