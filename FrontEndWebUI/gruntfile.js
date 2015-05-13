@@ -56,13 +56,16 @@ module.exports = function (grunt) {
                 tasks: ['uglify', 'html2js:app', 'less:development']
             }
         },
-        
-        //serve: {
-        //    'path': 'C:\Dev\Repos\mauro\Composite-UI-Sample\FrontEndWebUI\wwwroot\app',
-        //    'options': {
-        //        'port': 9000
-        //    }
-        //}
+
+        connect: {
+            server: {
+                options: {
+                    port: 9000,
+                    base: 'wwwroot',
+                    keepalive: true
+                }
+            }
+        }
     });
 
     grunt.registerTask('default', [
@@ -76,5 +79,5 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-contrib-less');
     grunt.loadNpmTasks('grunt-html2js');
-    //grunt.loadNpmTasks('grunt-serve');
+    grunt.loadNpmTasks('grunt-contrib-connect');
 };
