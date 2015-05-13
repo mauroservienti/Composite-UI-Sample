@@ -184,3 +184,5 @@ FakesAssemblies/
 FontEndWebUI/wwwroot/lib/
 FontEndWebUI/wwwroot/app.js
 FontEndWebUI/wwwroot/app.js.map
+.lock.json
+project.lock.json
