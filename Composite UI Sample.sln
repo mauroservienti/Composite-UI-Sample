@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.22823.1
+VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "FrontEndWebUI", "FrontEndWebUI\FrontEndWebUI.xproj", "{1298759B-A583-4353-8680-EC5EF470D421}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -15,6 +15,11 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "APIs", "APIs", "{7464DB8F-21CE-45DB-A503-B398EAE6CC71}"
 EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Shared", "Shared\Shared.xproj", "{E1CBCDDB-84CC-43A9-A2DE-3D0402F0D0EA}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{44C355E7-D842-4042-B576-503CA1EA16C6}"
+	ProjectSection(SolutionItems) = preProject
+		global.json = global.json
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
