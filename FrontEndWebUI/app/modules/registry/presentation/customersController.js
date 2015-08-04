@@ -11,8 +11,13 @@
                 vm.isBusy = backendCompositionService
                     .executeQuery('customers-list', { pageIndex: 0, pageSize: 10 })
                     .then(function (composedResult) {
-                        $log.debug('customers-list -> composedResult:', composedResult);
-                        vm.list = composedResult.customers;
+                        $log.info('customers-list -> composedResult:', composedResult);
+
+                        return backendCompositionService
+                            .executeQuery('customers-list-details', composedResult)
+                            .then(function (composedResult) {
+                                vm.list = composedResult.customers;
+                            });
                     });
 
             }]);

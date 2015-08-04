@@ -242,6 +242,21 @@
             };
             return e;
         } ]);
+        b.registerQueryHandlerFactory("customers-list-details", [ "$log", "$http", function(a, b) {
+            a.info("customers-list-details factory");
+            return {
+                executeQuery: function(c, d) {
+                    var e = c.customers.map(function(a) {
+                        return a.id;
+                    });
+                    return b.get("http://localhost:55751/api/orders/totalsbycustomer/" + e.join(",")).then(function(b) {
+                        a.info("results");
+                        a.info(arguments);
+                        return d;
+                    });
+                }
+            };
+        } ]);
     } ]);
 })();
 
@@ -345,9 +360,11 @@
         c.isBusy = b.executeQuery("customers-list", {
             pageIndex: 0,
             pageSize: 10
-        }).then(function(b) {
-            a.debug("customers-list -> composedResult:", b);
-            c.list = b.customers;
+        }).then(function(d) {
+            a.info("customers-list -> composedResult:", d);
+            return b.executeQuery("customers-list-details", d).then(function(a) {
+                c.list = a.customers;
+            });
         });
     } ]);
 })();

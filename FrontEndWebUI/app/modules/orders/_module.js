@@ -66,5 +66,40 @@
 
                 }]);
 
+            backendCompositionServiceProvider.registerQueryHandlerFactory('customers-list-details',
+                ['$log', '$http', function ($log,$http) {  
+                    $log.info('customers-list-details factory')
+
+                    return {
+                        executeQuery: function (inComposedResults, outComposedResults) {
+                            
+                            var customerIds = inComposedResults.customers.map(function (customer) {
+                                    return customer.id;
+                            });
+
+                            return $http.get('http://localhost:55751/api/orders/totalsbycustomer/' + customerIds.join(","))
+                                .then(function (response) {
+
+                                    $log.info("results")
+                                    $log.info(arguments)
+                                    //var orders = [];
+                                    //angular.forEach(response.data, function (item, index) {
+                                    //    var vm = new OrderViewModel(item);
+                                    //    orders.push(vm);
+                                    //});
+
+                                    //composedResults.orders = {
+                                    //    dataType: 'orders',
+                                    //    items: orders
+                                    //};
+
+                                    //$log.debug('Query ', queryId, 'handled: ', composedResults);
+
+                                    return outComposedResults;
+                                });
+                        }
+                    }
+                }]);
+
         }]);
 }())
