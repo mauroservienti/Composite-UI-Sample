@@ -13,9 +13,12 @@
                     .then(function (composedResult) {
                         $log.info('customers-list -> composedResult:', composedResult);
 
+                        var customerIds = composedResult.customers.map(function (c) { return c.id });
+
                         return backendCompositionService
-                            .executeQuery('customers-list-details', composedResult)
+                            .executeQuery('customers-list-details', customerIds, composedResult)
                             .then(function (composedResult) {
+                                $log.info("assigning results", composedResult)
                                 vm.list = composedResult.customers;
                             });
                     });

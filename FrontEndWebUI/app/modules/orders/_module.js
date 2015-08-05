@@ -67,35 +67,48 @@
                 }]);
 
             backendCompositionServiceProvider.registerQueryHandlerFactory('customers-list-details',
-                ['$log', '$http', function ($log,$http) {  
-                    $log.info('customers-list-details factory')
+                ['$log', '$http','$q', function ($log,$http,$q) {  
+                    $log.debug('customers-list-details factory')
 
                     return {
-                        executeQuery: function (inComposedResults, outComposedResults) {
+                        executeQuery: function (customerIds, composedResults) {
+                            $log.info("orders customers-list-details", arguments)
                             
-                            var customerIds = inComposedResults.customers.map(function (customer) {
-                                    return customer.id;
-                            });
+                            var qs = customerIds.map(function (cId) {
+                                return 'cId=' + cId;
+                            }).join('&');
 
-                            return $http.get('http://localhost:55751/api/orders/totalsbycustomer/' + customerIds.join(","))
+                            var findCustomerInViewModelById = function (customerId) {
+                                var customers =composedResults.customers.filter(function (item) { return item.id == customerId });
+                                if (customers.length!=1) {
+                                    $log.warn("Couldn't find %d in view model", customerId);
+                                    return {}
+                                }
+                                return customers[0];
+                            }
+
+                            return $http.get('http://localhost:55751/api/orders/totalsbycustomer?' + qs)
                                 .then(function (response) {
+                                    $log.info("results", arguments)
 
-                                    $log.info("results")
-                                    $log.info(arguments)
-                                    //var orders = [];
-                                    //angular.forEach(response.data, function (item, index) {
-                                    //    var vm = new OrderViewModel(item);
-                                    //    orders.push(vm);
-                                    //});
+                                    response.data.forEach(function (item) {
+                                        var customer = findCustomerInViewModelById(item.customerId);
+                                        customer.totalOrders = {
+                                            dataType: 'totalOrdersForCustomer',
+                                            value: item.totalOrders
+                                        }
+                                    });
 
-                                    //composedResults.orders = {
-                                    //    dataType: 'orders',
-                                    //    items: orders
-                                    //};
-
-                                    //$log.debug('Query ', queryId, 'handled: ', composedResults);
-
-                                    return outComposedResults;
+                                    //composedResults.totals = {
+                                    //    dataType: 'orderTotalsForCustomer',
+                                    //    items: response.data.map(function(customerTotal) {
+                                    //        return {
+                                    //            dataType: 'orderTotalForCustomer',
+                                    //            customerId: customerTotal.customerId,
+                                    //            totalOrders: customerTotal.totalOrders
+                                    //        }
+                                    //    })
+                                    //}
                                 });
                         }
                     }

@@ -76,6 +76,9 @@
 
                     }]);
 
+
+                
+
                 var customersListQueryId = 'customers-list';
                 backendCompositionServiceProvider.registerQueryHandlerFactory(customersListQueryId,
                     ['$log', '$http', function ($log, $http) {
@@ -91,12 +94,18 @@
                                         $log.debug('HTTP response', response.data);
 
                                         var vms = [];
+                                        
                                         angular.forEach(response.data, function (item, index) {
-                                            vms.push(new CustomerViewModel(item));
+                                            var customerInList = {
+                                                dataType: 'customer-in-list',
+                                                id: item.id,
+                                                customer: new CustomerViewModel(item)
+                                            };
+                                            vms.push(customerInList);
                                         });
                                         composedResults.customers = vms;
 
-                                        $log.debug('Query ', customersListQueryId, 'handled: ', composedResults);
+                                        $log.info('Query ', customersListQueryId, 'handled: ', composedResults);
 
                                         return composedResults;
                                     });

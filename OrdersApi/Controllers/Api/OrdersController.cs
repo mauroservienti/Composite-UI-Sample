@@ -46,5 +46,20 @@ namespace OrdersApi.Controllers.Api
 			//	}
 			//};
 		}
-	}
+
+        [HttpGet]
+        public IEnumerable<dynamic> TotalsByCustomer(int[] cId) {
+            var totalPerCustomer = dataManager.Select("Order")
+                .Where(_=>cId.Contains((int)_.customerId))
+                .GroupBy(_=>(int)_.customerId)
+                .ToDictionary(_=>_.Key, _=>_.Count());
+
+            return cId
+                .Select(_ => new { 
+                    customerId = _,
+                    totalOrders = totalPerCustomer.ContainsKey(_)?totalPerCustomer[_]:0 
+                })
+                .ToList();
+        }
+    }
 }

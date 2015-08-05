@@ -1,4 +1,4 @@
-angular.module('composite.ui.app.templates', ['/app/composition/templates/customer-details/customer.html', '/app/composition/templates/customer-details/orders.html', '/app/composition/templates/customer-details/root.html', '/app/composition/templates/customers-list/customer.html', '/app/modules/registry/presentation/customerView.html', '/app/modules/registry/presentation/customersView.html', '/app/presentation/dashboardView.html']);
+angular.module('composite.ui.app.templates', ['/app/composition/templates/customer-details/customer.html', '/app/composition/templates/customer-details/orders.html', '/app/composition/templates/customer-details/root.html', '/app/composition/templates/customers-list/customer-in-list.html', '/app/modules/registry/presentation/customerView.html', '/app/modules/registry/presentation/customersView.html', '/app/presentation/dashboardView.html']);
 
 angular.module("/app/composition/templates/customer-details/customer.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("/app/composition/templates/customer-details/customer.html",
@@ -36,10 +36,11 @@ angular.module("/app/composition/templates/customer-details/root.html", []).run(
     "</section>");
 }]);
 
-angular.module("/app/composition/templates/customers-list/customer.html", []).run(["$templateCache", function($templateCache) {
-  $templateCache.put("/app/composition/templates/customers-list/customer.html",
+angular.module("/app/composition/templates/customers-list/customer-in-list.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("/app/composition/templates/customers-list/customer-in-list.html",
     "<section>\n" +
-    "    <a data-ng-href=\"#/customers/{{templateModel.id}}\">{{templateModel.displayName}}</a>\n" +
+    "    <a data-ng-href=\"#/customers/{{templateModel.customer.id}}\">{{templateModel.customer.displayName}}</a>\n" +
+    "    <span>({{templateModel.totalOrders.value}} orders)</span>\n" +
     "</section>");
 }]);
 

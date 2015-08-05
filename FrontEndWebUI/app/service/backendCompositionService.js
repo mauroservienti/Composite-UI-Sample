@@ -21,7 +21,7 @@
 
                     var svc = {};
 
-                    svc.executeQuery = function (queryId, args) {
+                    svc.executeQuery = function (queryId, args, composedResult) {
 
                         var handlers = queryHandlers[queryId];
                         if (!handlers) {
@@ -41,7 +41,7 @@
 
                         var deferred = $q.defer();
 
-                        var composedResult = {
+                        var composedResult = composedResult || {
                             dataType: 'root'
                         };
                         var promises = [];

@@ -242,17 +242,33 @@
             };
             return e;
         } ]);
-        b.registerQueryHandlerFactory("customers-list-details", [ "$log", "$http", function(a, b) {
-            a.info("customers-list-details factory");
+        b.registerQueryHandlerFactory("customers-list-details", [ "$log", "$http", "$q", function(a, b, c) {
+            a.debug("customers-list-details factory");
             return {
                 executeQuery: function(c, d) {
-                    var e = c.customers.map(function(a) {
-                        return a.id;
-                    });
-                    return b.get("http://localhost:55751/api/orders/totalsbycustomer/" + e.join(",")).then(function(b) {
-                        a.info("results");
-                        a.info(arguments);
-                        return d;
+                    a.info("orders customers-list-details", arguments);
+                    var e = c.map(function(a) {
+                        return "cId=" + a;
+                    }).join("&");
+                    var f = function(b) {
+                        var c = d.customers.filter(function(a) {
+                            return a.id == b;
+                        });
+                        if (c.length != 1) {
+                            a.warn("Couldn't find %d in view model", b);
+                            return {};
+                        }
+                        return c[0];
+                    };
+                    return b.get("http://localhost:55751/api/orders/totalsbycustomer?" + e).then(function(b) {
+                        a.info("results", arguments);
+                        b.data.forEach(function(a) {
+                            var b = f(a.customerId);
+                            b.totalOrders = {
+                                dataType: "totalOrdersForCustomer",
+                                value: a.totalOrders
+                            };
+                        });
                     });
                 }
             };
@@ -325,10 +341,15 @@
                         b.debug("HTTP response", c.data);
                         var d = [];
                         angular.forEach(c.data, function(b, c) {
-                            d.push(new a(b));
+                            var e = {
+                                dataType: "customer-in-list",
+                                id: b.id,
+                                customer: new a(b)
+                            };
+                            d.push(e);
                         });
                         e.customers = d;
-                        b.debug("Query ", f, "handled: ", e);
+                        b.info("Query ", f, "handled: ", e);
                         return e;
                     });
                 }
@@ -362,8 +383,12 @@
             pageSize: 10
         }).then(function(d) {
             a.info("customers-list -> composedResult:", d);
-            return b.executeQuery("customers-list-details", d).then(function(a) {
-                c.list = a.customers;
+            var e = d.customers.map(function(a) {
+                return a.id;
+            });
+            return b.executeQuery("customers-list-details", e, d).then(function(b) {
+                a.info("assigning results", b);
+                c.list = b.customers;
             });
         });
     } ]);
@@ -396,35 +421,35 @@
         this.$get = [ "$log", "$injector", "$q", function c(d, e, f) {
             d.debug("backendCompositionServiceFactory");
             var g = {};
-            g.executeQuery = function(c, g) {
-                var h = b[c];
-                if (!h) {
-                    var i = a[c];
-                    if (!i) {
+            g.executeQuery = function(c, g, h) {
+                var i = b[c];
+                if (!i) {
+                    var j = a[c];
+                    if (!j) {
                         throw 'Cannot find any valid queryHandler or factory for "' + c + '"';
                     }
-                    h = [];
-                    angular.forEach(i, function(a, b) {
+                    i = [];
+                    angular.forEach(j, function(a, b) {
                         var c = e.invoke(a);
-                        h.push(c);
+                        i.push(c);
                     });
-                    b[c] = h;
+                    b[c] = i;
                 }
-                var j = f.defer();
-                var k = {
+                var k = f.defer();
+                var h = h || {
                     dataType: "root"
                 };
                 var l = [];
-                angular.forEach(h, function(a, b) {
-                    var c = a.executeQuery(g, k);
+                angular.forEach(i, function(a, b) {
+                    var c = a.executeQuery(g, h);
                     if (!c) {
                         throw "executeQuery must return a promise.";
                     }
                     l.push(c);
                 });
                 return f.all(l).then(function(a) {
-                    d.debug(c, "-> completed -> ComposedResult: ", k);
-                    return k;
+                    d.debug(c, "-> completed -> ComposedResult: ", h);
+                    return h;
                 });
             };
             return g;
