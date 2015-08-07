@@ -98,17 +98,6 @@
                                             value: item.totalOrders
                                         }
                                     });
-
-                                    //composedResults.totals = {
-                                    //    dataType: 'orderTotalsForCustomer',
-                                    //    items: response.data.map(function(customerTotal) {
-                                    //        return {
-                                    //            dataType: 'orderTotalForCustomer',
-                                    //            customerId: customerTotal.customerId,
-                                    //            totalOrders: customerTotal.totalOrders
-                                    //        }
-                                    //    })
-                                    //}
                                 });
                         }
                     }
