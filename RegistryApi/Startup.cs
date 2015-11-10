@@ -24,8 +24,7 @@ namespace RegistryApi
 			services.AddMvc().Configure<MvcOptions>(options =>
 		   {
 			   options.OutputFormatters
-				   .Where(f => f.Instance is JsonOutputFormatter)
-				   .Select(f => f.Instance as JsonOutputFormatter)
+				   .OfType<JsonOutputFormatter>()
 				   .First()
 				   .SerializerSettings
 				   .ContractResolver = new CamelCasePropertyNamesContractResolver();
