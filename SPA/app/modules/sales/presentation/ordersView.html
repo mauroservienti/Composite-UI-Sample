@@ -1,0 +1,12 @@
+<section>
+    Orders
+
+    <button ng-click="orders.createNewOrder()">Create new order</button>
+    <br />
+    <ul>
+        <li data-ng-repeat="order in orders.list track by order.id" ng-class="{ 'pending-order': order.isPending }">
+            <order-details order="order"></order-details>
+        </li>
+    </ul>
+
+</section>
