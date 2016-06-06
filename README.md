@@ -4,14 +4,28 @@ The overall goal of these set of sample aims to show, in the simplest form possi
 
 ## API
 
-`OrdersApi` and `RegistryApi` mocks, with no real data storage, 2 sample back-end APIs that expose data related, at the business level, to each other. In this case the `RegistryApi` owns all the registry related data, and the `OrdersApi` owns order context bound data that have the notion of the related customer via the `CustomerId` attribute.
+`Sales.API`, `Finance.API` and `Customers.API` expose data owned by 3 different bounded context, or services in the SOA terminology. In this sample `Customers` owns all the registry related data, `Sales` owns Orders and finally `Finance` owns prices and credit card information.
 
-## Front-ends
+## Front-end
 
-#### `FrontEndWebUI` using AngularJS
+* `FrontEnd.SPA` is an AngularJS (1.x) based single page application.
 
 ## Getting started
 
-Once you've cloned the repo, create directories `RegistryApi\wwwroot` and `OrdersApi\wwwroot`. These directories are empty so can't be in the git-repo, so need to be created manually on startup.
+### API Projects
 
-Then start `OrdersApi` and `RegistryApi` from Visual Studio and run the `Grunt -> Tasks -> connect task` from Task Runner Explorer. You can now access the app on http://localhost:9000.
+Configure `Visual Studio` to run the following projects as startup projects:
+
+* `Sales.API`
+* `Finance.API`
+* `Customers.API`
+
+### Single page application
+
+The single page application requires `Node.js`, `bower` and `grunt` to be built and served locally:
+
+* Install `Node.js` if not already installed
+* Install `bower` globally running at a `Node` command prompt `npm install -g bower`
+* Install `grunt` globally running at a `Node` command prompt `npm install -g grunt`
+
+Open a `Node` command prompt and run `grunt serve` to build the single page application and serve it using the grung default web server, the application will be available at `http://localhost:9000`
