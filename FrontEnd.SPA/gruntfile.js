@@ -73,6 +73,12 @@ module.exports = function (grunt) {
         'uglify',
         'html2js:app',
         'watch']);
+        
+    grunt.registerTask('serve', [
+        'bower:install',
+        'uglify',
+        'html2js:app',
+        'connect']);
 
     grunt.loadNpmTasks('grunt-bower-task');
     grunt.loadNpmTasks('grunt-contrib-uglify');
