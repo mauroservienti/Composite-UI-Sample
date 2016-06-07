@@ -1,4 +1,5 @@
-﻿(function () {
+﻿/* global angular */
+(function () {
     angular.module('composite.ui.app.services')
         .provider('navigationService', function navigationServiceProvider() {
 

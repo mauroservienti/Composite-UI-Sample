@@ -1,3 +1,4 @@
+/* global angular */
 (function () {
     angular.module('composite.ui.app.controllers')
         .controller('ordersController',
