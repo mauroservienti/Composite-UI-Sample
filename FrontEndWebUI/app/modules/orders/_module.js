@@ -40,7 +40,7 @@
 
                             $log.debug('Ready to handle ', queryId, ' args: ', args);
 
-                            return $http.get('http://localhost:55751/api/orders/bycustomer/' + args.id)
+                            return $http.get('http://localhost:53127/api/orders/bycustomer/' + args.id)
                                 .then(function (response) {
 
                                     var orders = [];

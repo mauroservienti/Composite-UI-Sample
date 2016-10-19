@@ -58,7 +58,7 @@
 
                                 $log.debug('Ready to handle ', customerDetailsQueryId, ' args: ', args);
 
-                                return $http.get('http://localhost:12631/api/customers/' + args.id)
+                                return $http.get('http://localhost:53126/api/customers/' + args.id)
                                     .then(function (response) {
 
                                         var customer = new CustomerViewModel(response.data);
@@ -84,7 +84,7 @@
                             executeQuery: function (args, composedResults) {
 
                                 $log.debug('Ready to handle ', customersListQueryId, ' args: ', args);
-                                var uri = 'http://localhost:12631/api/customers?p=' + args.pageIndex + '&s=' + args.pageSize;
+                                var uri = 'http://localhost:53126/api/customers?p=' + args.pageIndex + '&s=' + args.pageSize;
                                 return $http.get(uri)
                                     .then(function (response) {
 
