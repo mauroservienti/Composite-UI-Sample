@@ -1,17 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
+﻿using System.Collections.Generic;
 using System.Linq;
-using Microsoft.AspNet.Mvc;
-using Microsoft.Framework.Runtime;
-using Newtonsoft.Json;
+using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace RegistryApi.Controllers.Controllers
 {
-	[Route("api/[controller]")]
-	public class CustomersController : Controller
+    [Route("api/[controller]")]
+	public class CustomersController : ControllerBase
 	{
 		readonly Shared.DataManager dataManager;
 
