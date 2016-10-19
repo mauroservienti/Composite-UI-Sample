@@ -32,19 +32,19 @@
 
 (function() {
     var a = angular.module("radical.itemTemplate", []);
-    a.provider("radicalItemTemplateConfig", function c() {
-        var a = {
+    a.provider("radicalItemTemplateConfig", function a() {
+        var b = {
             templatesFolder: "/radical/itemTemplate/templates/",
             dataTypeProperty: "dataType",
             defaultLoadingTemplate: '<span class="item-template-loading">Loading...</span>',
             defaultLoadingErrorTemplate: "<span>Cannot find any valid template for: {{templateModel}}</span>"
         };
-        this.setDefaultSettings = function(b) {
-            angular.extend(a, b);
+        this.setDefaultSettings = function(a) {
+            angular.extend(b, a);
         };
-        this.$get = [ "$log", "$http", "$templateCache", function b(c, d, e) {
+        this.$get = [ "$log", "$http", "$templateCache", function a(c, d, e) {
             return {
-                defaultSettings: a,
+                defaultSettings: b,
                 defaultTemplatesSelector: function(a, b) {
                     var d = "undefined";
                     if (a) {
@@ -148,8 +148,8 @@
                 templateModel: "=",
                 templateContext: "="
             },
-            compile: function h(a) {
-                var h = {
+            compile: function a(h) {
+                var i = {
                     post: function(a, h, i) {
                         c.debug("itemTemplate directive post linker function.");
                         c.debug("[scope, $linkElement, $linkAttributes]", a, h, i);
@@ -188,7 +188,7 @@
                         });
                     }
                 };
-                return h;
+                return i;
             }
         };
     };
@@ -225,7 +225,7 @@
             var e = {
                 executeQuery: function(e, f) {
                     b.debug("Ready to handle ", c, " args: ", e);
-                    return d.get("http://localhost:55751/api/orders/bycustomer/" + e.id).then(function(d) {
+                    return d.get("http://localhost:53127/api/orders/bycustomer/" + e.id).then(function (d) {
                         var e = [];
                         angular.forEach(d.data, function(b, c) {
                             var d = new a(b);
@@ -290,7 +290,7 @@
             var d = {
                 executeQuery: function(d, f) {
                     b.debug("Ready to handle ", e, " args: ", d);
-                    return c.get("http://localhost:12631/api/customers/" + d.id).then(function(c) {
+                    return c.get("http://localhost:53126/api/customers/" + d.id).then(function(c) {
                         var d = new a(c.data);
                         f.customer = d;
                         b.debug("Query ", e, "handled: ", f);
@@ -305,7 +305,7 @@
             var d = {
                 executeQuery: function(d, e) {
                     b.debug("Ready to handle ", f, " args: ", d);
-                    var g = "http://localhost:12631/api/customers?p=" + d.pageIndex + "&s=" + d.pageSize;
+                    var g = "http://localhost:53126/api/customers?p=" + d.pageIndex + "&s=" + d.pageSize;
                     return c.get(g).then(function(c) {
                         b.debug("HTTP response", c.data);
                         var d = [];
@@ -368,30 +368,30 @@
 
 (function() {
     angular.module("composite.ui.app.services").provider("backendCompositionService", function a() {
-        var a = {};
         var b = {};
-        this.registerQueryHandlerFactory = function(b, c) {
-            if (!a.hasOwnProperty(b)) {
-                a[b] = [];
+        var c = {};
+        this.registerQueryHandlerFactory = function(a, c) {
+            if (!b.hasOwnProperty(a)) {
+                b[a] = [];
             }
-            a[b].push(c);
+            b[a].push(c);
         };
-        this.$get = [ "$log", "$injector", "$q", function c(d, e, f) {
+        this.$get = [ "$log", "$injector", "$q", function a(d, e, f) {
             d.debug("backendCompositionServiceFactory");
             var g = {};
-            g.executeQuery = function(c, g) {
-                var h = b[c];
+            g.executeQuery = function(a, g) {
+                var h = c[a];
                 if (!h) {
-                    var i = a[c];
+                    var i = b[a];
                     if (!i) {
-                        throw 'Cannot find any valid queryHandler or factory for "' + c + '"';
+                        throw 'Cannot find any valid queryHandler or factory for "' + a + '"';
                     }
                     h = [];
                     angular.forEach(i, function(a, b) {
                         var c = e.invoke(a);
                         h.push(c);
                     });
-                    b[c] = h;
+                    c[a] = h;
                 }
                 var j = f.defer();
                 var k = {
@@ -405,8 +405,8 @@
                     }
                     l.push(c);
                 });
-                return f.all(l).then(function(a) {
-                    d.debug(c, "-> completed -> ComposedResult: ", k);
+                return f.all(l).then(function(b) {
+                    d.debug(a, "-> completed -> ComposedResult: ", k);
                     return k;
                 });
             };
@@ -417,14 +417,14 @@
 
 (function() {
     angular.module("composite.ui.app.services").provider("navigationService", function a() {
-        var a = {};
-        a.navigationItems = [];
-        this.registerNavigationItem = function(b) {
-            a.navigationItems.push(b);
+        var b = {};
+        b.navigationItems = [];
+        this.registerNavigationItem = function(a) {
+            b.navigationItems.push(a);
         };
-        this.$get = [ "$log", function b(c) {
+        this.$get = [ "$log", function a(c) {
             c.debug("navigationServiceFactory");
-            return a;
+            return b;
         } ];
     });
 })();

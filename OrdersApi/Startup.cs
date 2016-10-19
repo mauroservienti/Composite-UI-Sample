@@ -1,39 +1,23 @@
-﻿using System;
-using System.Linq;
-using Microsoft.AspNet.Builder;
-using Microsoft.AspNet.Hosting;
-using Microsoft.AspNet.Http;
-using Microsoft.AspNet.Routing;
-using Microsoft.Framework.DependencyInjection;
-using Microsoft.AspNet.Mvc;
-using Newtonsoft.Json.Serialization;
-using Microsoft.Framework.Runtime;
+﻿using System.Linq;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace OrdersApi
 {
     public class Startup
     {
-        public Startup(IHostingEnvironment env)
-        {
-        }
-
         // This method gets called by a runtime.
         // Use this method to add services to the container
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc().Configure<MvcOptions>( options =>
-			{
-				options.OutputFormatters
-					.OfType<JsonOutputFormatter>()
-					.First()
-					.SerializerSettings
-					.ContractResolver = new CamelCasePropertyNamesContractResolver();
-			} );
+            services.AddMvc();
 
-			services.AddSingleton(typeof(Shared.DataManager), c =>
+            services.AddSingleton(typeof(Shared.DataManager), c =>
 			{
-				var env = (IApplicationEnvironment)c.GetService(typeof(IApplicationEnvironment));
-				return new Shared.DataManager(env.ApplicationBasePath);
+				var env = (IHostingEnvironment)c.GetService(typeof(IHostingEnvironment));
+				return new Shared.DataManager(env.ContentRootPath);
 			});
 		}
 

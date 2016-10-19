@@ -1,0 +1,7 @@
+#:C:\Users\j.stewart\Source\Repos\Composite-UI-Sample\Shared\Shared.xproj
+#:C:\Users\j.stewart\Source\Repos\Composite-UI-Sample\RegistryApi\RegistryApi.xproj
+C:\Users\j.stewart\Source\Repos\Composite-UI-Sample\RegistryApi\RegistryApi.xproj|C:\Users\j.stewart\Source\Repos\Composite-UI-Sample\Shared\Shared.xproj
+#:C:\Users\j.stewart\Source\Repos\Composite-UI-Sample\FrontEndWebUI\FrontEndWebUI.xproj
+C:\Users\j.stewart\Source\Repos\Composite-UI-Sample\FrontEndWebUI\FrontEndWebUI.xproj|C:\Users\j.stewart\Source\Repos\Composite-UI-Sample\Shared\Shared.xproj
+#:C:\Users\j.stewart\Source\Repos\Composite-UI-Sample\OrdersApi\OrdersApi.xproj
+C:\Users\j.stewart\Source\Repos\Composite-UI-Sample\OrdersApi\OrdersApi.xproj|C:\Users\j.stewart\Source\Repos\Composite-UI-Sample\Shared\Shared.xproj

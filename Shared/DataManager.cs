@@ -10,11 +10,11 @@ namespace Shared
 	// To enable this option, right-click on the project and select the Properties menu item. In the Build tab select "Produce outputs on build".
 	public class DataManager
 	{
-		readonly String applicationBasePath;
-		readonly String dataDirectory;
-		readonly Boolean makeItSlow;
+		readonly string applicationBasePath;
+		readonly string dataDirectory;
+		readonly bool makeItSlow;
 
-		public DataManager(String applicationBasePath, Boolean makeItSlow = true)
+		public DataManager(string applicationBasePath, bool makeItSlow = true)
 		{
 			this.applicationBasePath = applicationBasePath;
 			this.makeItSlow = makeItSlow;
@@ -29,7 +29,7 @@ namespace Shared
 			}
 		}
 
-		String ComposeFullFileName(String type, int id)
+        string ComposeFullFileName(string type, int id)
 		{
 			var fileName = type + "." + id.ToString().PadLeft(4, '0') + ".json";
 			var path = Path.Combine(this.dataDirectory, fileName);
@@ -37,7 +37,7 @@ namespace Shared
 			return path;
 		}
 
-		dynamic GetDocument(String fullFileName)
+		dynamic GetDocument(string fullFileName)
 		{
 			using (var fs = File.OpenText(fullFileName))
 			{
@@ -48,14 +48,14 @@ namespace Shared
 			}
 		}
 
-		public dynamic GetById(String type, int id)
+		public dynamic GetById(string type, int id)
 		{
 			this.SlowDown();
 
 			return this.GetDocument(this.ComposeFullFileName(type, id));
 		}
 
-		public IEnumerable<dynamic> Select(String type)
+		public IEnumerable<dynamic> Select(string type)
 		{
 			this.SlowDown();
 
