@@ -1,6 +1,6 @@
 Note: This repo is considered frozen, no major changes will be done, other then bug fixes or version upgrades where required.
 
-The evolution of the work started here is in the [Shopper, a Services UI Composition and SOA sample](https://github.com/mauroservienti/shopper/) repo.
+The evolution of the work started here is in the [Designing a UI for Microservices - Demos](https://github.com/mauroservienti/designing-a-ui-for-microservices-demos/) repo.
 
 # Composite-UI-Sample
 
